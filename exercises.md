@@ -50,7 +50,7 @@ docker images | grep agent
 | Bản | Dung lượng |
 |-----|-----------|
 | 1 stage (bản đầu) | ~450 MB |
-| Multi-stage | ~180 MB |
+| Multi-stage | 271 MB (Disk Usage) / 63.9 MB (Content Size) |
 
 Giải thích: Phần dung lượng chênh lệch (~270 MB) là bộ trình biên dịch `gcc`, các công cụ build C/C++ (`build-essential`), thư mục wheel cache của `pip` (`/root/.cache`), cũng như các thư viện dev/headers không cần thiết cho quá trình runtime. Kỹ thuật Multi-stage build giúp loại bỏ toàn bộ các công cụ build thừa này, chỉ copy các thư viện Python đã đóng gói từ stage `builder` sang stage `runtime` tinh gọn (`python:3.11-slim`).
 
