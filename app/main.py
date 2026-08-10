@@ -152,7 +152,13 @@ def ask(
 
 
 if __name__ == "__main__":
+    import os
     import uvicorn
 
-    settings = get_settings()
-    uvicorn.run(app, host="0.0.0.0", port=settings.port)
+    port_env = os.getenv("PORT")
+    if port_env and port_env.isdigit():
+        port = int(port_env)
+    else:
+        port = get_settings().port
+
+    uvicorn.run(app, host="0.0.0.0", port=port)
