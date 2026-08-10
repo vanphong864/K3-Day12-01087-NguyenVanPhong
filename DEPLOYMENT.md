@@ -8,7 +8,7 @@
 | Mục | Nội dung |
 |-----|----------|
 | Họ và tên | Nguyễn Văn Phong |
-| Mã học viên | 01087 |
+| Mã học viên | 2A202601087 |
 | Repo | https://github.com/vanphong864/K3-Day12-01087-NguyenVanPhong |
 
 ## Service
@@ -70,24 +70,50 @@ done; echo
 Dán output của các lệnh trên vào đây:
 
 ```text
-1. /health
 HTTP/1.1 200 OK
-{"status":"ok","service":"day12-agent","version":"1.0.0"}
+Content-Type: application/json
+Date: Mon, 10 Aug 2026 05:11:15 GMT
+Server: railway-hikari
+x-railway-request-id: _YzmG5DQTNaVKIYB9o6EoQ
+Content-Length: 57
+x-hikari-trace: sin1.nzn2
+x-railway-edge: sin1
+Connection: keep-alive
 
-2. /ready
-HTTP/1.1 200 OK
-{"status":"ready","redis":true}
+{"status":"ok","service":"day12-agent","version":"1.0.0"}HTTP/1.1 200 OK
+Content-Type: application/json
+Date: Mon, 10 Aug 2026 05:11:16 GMT
+Server: railway-hikari
+x-railway-request-id: XBMiH7tbTv6dc2uELPU1MQ
+Content-Length: 31
+x-hikari-trace: sin1.98a6
+x-railway-edge: sin1
+Connection: keep-alive
 
-3. /ask không có API Key
-HTTP/1.1 401 Unauthorized
-{"detail":"invalid or missing API key"}
+{"status":"ready","redis":true}HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+Date: Mon, 10 Aug 2026 05:11:16 GMT
+Server: railway-hikari                                                                                                 x-railway-request-id: Alvw5K73Q6-wtpWvWUN5dQ                                                                           Content-Length: 39                                                                                                     x-hikari-trace: sin1.98a6                                                                                              x-railway-edge: sin1                                                                                                   Connection: keep-alive                                                                                                                                                                                                                        {"detail":"invalid or missing API key"}                                                                                                                                                                                                       answer         : Ngáº¯n gá»n: Deploy la gi phá»¥ thuá»c vÃo ba yáº¿u tá» â cáº¥u hÃ¬nh qua biáº¿n mÃ´i                                  trÆ°á»ng, health check Äá» orchestrator biáº¿t tráº¡ng thÃ¡i, vÃ giá»i háº¡n tÃi nguyÃªn. (MÃ¬nh                       Äang nhá» 20 lÆ°á»£t trao Äá»i trÆ°á»c ÄÃ³.)                                                          
+user_id        : sv-test
+history_length : 20
+cost_usd       : 9.675E-05
+tokens         : @{in=457; out=47}
 
-4. /ask có API Key
-HTTP/1.1 200 OK
-{"answer":"Deploy là gì...","user_id":"sv-test","history_length":16,"cost_usd":0.00008655,"tokens":{"in":397,"out":45}}
-
-5. Rate limit (gọi 15 lần)
-200 200 200 200 200 200 200 200 429 429 429 429 429 429 429
+200
+200
+200
+200
+200
+200
+200
+200
+200
+429
+429
+429
+429
+429
+429
 ```
 
 ## Ảnh Chụp Màn Hình
