@@ -62,8 +62,9 @@ Sửa một ký tự trong `app/main.py` rồi build lại. Với Dockerfile c�
 layer nào được dùng lại từ cache, layer nào phải chạy lại? Nếu bạn đặt
 `COPY . .` lên trước `RUN pip install` thì kết quả khác thế nào?
 
-- Khi sửa 1 ký tự trong `app/main.py`: Tất cả các layer phía trên bao gồm `FROM`, `WORKDIR`, `COPY requirements.txt .`, và `RUN pip install ...` đều được dùng lại từ **Docker Build Cache** vì file `requirements.txt` không hề thay đổi. Chỉ có layer `COPY . .` và các câu lệnh phía sau nó phải chạy lại.
-- Nếu đặt `COPY . .` lên trước `RUN pip install`: Mỗi khi thay đổi dù chỉ 1 ký tự trong source code (`app/main.py`), layer `COPY . .` sẽ bị vô hiệu hóa cache (cache invalidation). Điều này buộc Docker phải thực thi lại lệnh `RUN pip install` từ đầu, tải lại toàn bộ danh sách thư viện Python tốn rất nhiều thời gian mỗi lần build.
+- **Những layer được dùng lại từ Cache (`CACHED`)**: Các layer đứng trước lệnh `COPY . .` bao gồm `FROM python:3.11-slim`, `WORKDIR`, `COPY requirements.txt .`, `RUN pip install ...` và `COPY --from=builder`. Do file `requirements.txt` không thay đổi nên Docker tái sử dụng lại cache cũ, bước cài đặt thư viện hoàn thành ngay lập tức (0.0s).
+- **Những layer phải chạy lại (`DONE`)**: Layer `COPY . .` và các lệnh phía sau nó (`RUN useradd ...`). Do nội dung file `app/main.py` thay đổi nên Docker đánh dấu vỡ cache (Cache Invalidation) tại bước `COPY . .`.
+- **Nếu đặt `COPY . .` lên trước `RUN pip install`**: Mỗi khi chỉnh sửa bất kỳ file source code nào (`app/main.py`), bước `COPY . .` bị vỡ cache đầu tiên. Do Docker build theo cơ chế phụ thuộc layer tuần tự từ trên xuống dưới, việc vỡ cache ở `COPY . .` kéo theo toàn bộ các bước phía sau (bao gồm cả `RUN pip install`) CŨNG BỊ VỠ CACHE HÀNG LOẠT. Kết quả là Docker phải tải và cài đặt lại toàn bộ thư viện Python từ đầu, làm tăng đáng kể thời gian build image.
 
 ---
 
